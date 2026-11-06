@@ -248,7 +248,7 @@ export default function BestFriendTestPage() {
                                 key={opt.value}
                                 type="button"
                                 onClick={() => setAnswer(q.id, opt.value)}
-                                className={`text-left p-3 rounded-xl text-xs sm:text-sm font-medium transition-all border ${
+                                className={`text-left p-3 sm:p-4 rounded-xl text-xs sm:text-sm font-medium transition-all border break-words whitespace-normal leading-relaxed ${
                                   currentAnswers[q.id] === opt.value
                                     ? "bg-amber-500/20 border-amber-400 text-white shadow-md shadow-amber-500/20"
                                     : "bg-white/5 border-purple-800/40 text-purple-200/70 hover:bg-white/10 hover:border-purple-600/50"

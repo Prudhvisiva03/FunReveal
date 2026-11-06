@@ -527,15 +527,23 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
 
         {/* Top Floating Certificate Ribbon & Sound FX Toggle */}
         <div className="text-center space-y-3">
-          <div className="flex items-center justify-center gap-3">
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-emerald-500/15 border border-purple-500/40 text-purple-200 text-xs sm:text-sm font-bold backdrop-blur-md shadow-lg shadow-purple-950/50">
-              <Sparkles className="w-4 h-4 text-amber-300 animate-spin" />
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <div className="inline-flex items-center gap-2 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-emerald-500/15 border border-purple-500/40 text-purple-200 text-xs sm:text-sm font-bold backdrop-blur-md shadow-lg shadow-purple-950/50">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin shrink-0" />
               <span>
-                {isUnlocked
-                  ? "OFFICIAL FUNREVEAL CERTIFICATE OF COMPATIBILITY"
-                  : "COMPATIBILITY REPORT CALCULATED & READY"}
+                {isUnlocked ? (
+                  <>
+                    <span className="sm:hidden">COMPATIBILITY CERTIFICATE</span>
+                    <span className="hidden sm:inline">OFFICIAL FUNREVEAL CERTIFICATE OF COMPATIBILITY</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="sm:hidden">REPORT CALCULATED & READY</span>
+                    <span className="hidden sm:inline">COMPATIBILITY REPORT CALCULATED & READY</span>
+                  </>
+                )}
               </span>
-              <Sparkles className="w-4 h-4 text-pink-300" />
+              <Sparkles className="w-3.5 h-3.5 text-pink-300 shrink-0" />
             </div>
 
             {/* Sound FX Toggle Button */}
@@ -567,20 +575,29 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
 
           {/* Prominent Names Showcase */}
           {name1 && name2 ? (
-            <div className="flex items-center justify-center gap-3 sm:gap-5 pt-2">
-              <div className="px-5 py-2.5 rounded-2xl bg-white/10 border border-pink-500/40 backdrop-blur-md shadow-lg text-white font-extrabold text-lg sm:text-2xl tracking-wide">
+            <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 sm:gap-4 pt-2 max-w-full">
+              <div
+                className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-2xl bg-white/10 border border-pink-500/40 backdrop-blur-md shadow-lg text-white font-extrabold text-base sm:text-xl md:text-2xl tracking-wide max-w-[130px] sm:max-w-[180px] md:max-w-xs truncate text-center"
+                title={name1}
+              >
                 {name1}
               </div>
-              <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center shadow-lg shadow-pink-500/40 animate-pulse text-xl">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center shadow-lg shadow-pink-500/40 animate-pulse text-lg sm:text-xl">
                 {toolType === "FRIENDSHIP_CALCULATOR" || toolType === "BEST_FRIEND_TEST" ? "🤝" : "💘"}
               </div>
-              <div className="px-5 py-2.5 rounded-2xl bg-white/10 border border-purple-500/40 backdrop-blur-md shadow-lg text-white font-extrabold text-lg sm:text-2xl tracking-wide">
+              <div
+                className="px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-2xl bg-white/10 border border-purple-500/40 backdrop-blur-md shadow-lg text-white font-extrabold text-base sm:text-xl md:text-2xl tracking-wide max-w-[130px] sm:max-w-[180px] md:max-w-xs truncate text-center"
+                title={name2}
+              >
                 {name2}
               </div>
             </div>
           ) : singleName ? (
-            <div className="pt-2">
-              <span className="px-6 py-2.5 rounded-2xl bg-white/10 border border-purple-500/40 backdrop-blur-md text-white font-black text-xl sm:text-2xl tracking-wide shadow-lg inline-block">
+            <div className="pt-2 max-w-full px-2">
+              <span
+                className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-2xl bg-white/10 border border-purple-500/40 backdrop-blur-md text-white font-black text-lg sm:text-2xl tracking-wide shadow-lg inline-block max-w-full truncate"
+                title={singleName}
+              >
                 ✨ {singleName}&apos;s Cosmic Profile
               </span>
             </div>
@@ -684,10 +701,10 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
         {isUnlocked && (
           <div className="relative rounded-3xl bg-gradient-to-b from-purple-950/70 via-slate-950/80 to-purple-950/90 border-2 border-purple-500/40 p-6 sm:p-10 lg:p-12 shadow-[0_0_60px_rgba(168,85,247,0.25)] backdrop-blur-2xl overflow-hidden">
             {/* Decorative Corner Holographic Brackets */}
-            <div className="absolute top-4 left-4 text-purple-400/40 font-mono text-xs select-none">
+            <div className="hidden sm:block absolute top-4 left-4 text-purple-400/40 font-mono text-xs select-none">
               ✦ FUNREVEAL // VERIFIED REPORT
             </div>
-            <div className="absolute top-4 right-4 text-purple-400/40 font-mono text-xs select-none">
+            <div className="hidden sm:block absolute top-4 right-4 text-purple-400/40 font-mono text-xs select-none">
               ALGORITHM V1.0 ✦
             </div>
 
@@ -700,7 +717,7 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
                     <div className="absolute -inset-6 rounded-full bg-gradient-to-r from-pink-500/30 via-purple-500/30 to-violet-500/30 blur-2xl animate-pulse" />
 
                     {/* SVG Animated Circular Progress Gauge */}
-                    <svg className="w-52 h-52 sm:w-60 sm:h-60 -rotate-90 transform drop-shadow-[0_0_20px_rgba(236,72,153,0.5)]">
+                    <svg className="w-48 h-48 sm:w-56 sm:h-56 md:w-60 md:h-60 -rotate-90 transform drop-shadow-[0_0_20px_rgba(236,72,153,0.5)]">
                       <circle
                         cx="50%"
                         cy="50%"
@@ -733,7 +750,7 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
                     {/* Center Score Counter */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                       <div className="flex items-baseline">
-                        <span className="text-6xl sm:text-7xl font-black text-white tracking-tighter drop-shadow-md">
+                        <span className="text-5xl sm:text-6xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md">
                           {scoreNum}
                         </span>
                         <span className="text-2xl sm:text-3xl text-pink-400 font-extrabold ml-1">%</span>
@@ -831,14 +848,14 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {/* WhatsApp Direct Share Button */}
                   <button
                     type="button"
                     onClick={handleWhatsAppShare}
-                    className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-green-900/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2.5 px-4 sm:px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-green-900/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   >
-                    <MessageCircle className="w-5 h-5 fill-white text-transparent" />
+                    <MessageCircle className="w-5 h-5 fill-white text-transparent shrink-0" />
                     <span>WhatsApp</span>
                   </button>
 
@@ -847,16 +864,16 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
                     type="button"
                     onClick={handleDownloadStoryCard}
                     disabled={generatingImage}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-pink-900/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-50"
+                    className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-pink-900/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-50"
                   >
                     {generatingImage ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin text-white" />
+                        <Loader2 className="w-5 h-5 animate-spin text-white shrink-0" />
                         <span>Rendering...</span>
                       </>
                     ) : (
                       <>
-                        <Camera className="w-5 h-5 text-white" />
+                        <Camera className="w-5 h-5 text-white shrink-0" />
                         <span>Download Story Card</span>
                       </>
                     )}
@@ -866,16 +883,16 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-purple-500/40 text-white font-bold text-sm sm:text-base transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    className="sm:col-span-2 lg:col-span-1 inline-flex items-center justify-center gap-2.5 px-4 sm:px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-purple-500/40 text-white font-bold text-sm sm:text-base transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-5 h-5 text-emerald-400" />
+                        <Check className="w-5 h-5 text-emerald-400 shrink-0" />
                         <span className="text-emerald-300">Link Copied! ✨</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-5 h-5 text-purple-300" />
+                        <Copy className="w-5 h-5 text-purple-300 shrink-0" />
                         <span>Copy Link</span>
                       </>
                     )}

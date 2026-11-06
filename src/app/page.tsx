@@ -85,7 +85,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOOLS.map((tool) => (
               <Link key={tool.href} href={tool.href} className="group block">
                 <Card className="h-full hover:border-purple-500/40 hover:scale-[1.02] card-glow group-hover:shadow-purple-500/20">
