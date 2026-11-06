@@ -100,8 +100,13 @@ export async function verifyAndUnlockPayment({
 
   // Demo order bypass for local testing without active Razorpay account
   if (razorpayOrderId.startsWith("demo_order_")) {
-    await unlockSession(sessionId);
-    return { success: true, sessionId, isDemo: true };
+    const { unlockedSessionId } = await unlockSession(sessionId);
+    return {
+      success: true,
+      sessionId: unlockedSessionId || sessionId,
+      unlockedSessionId: unlockedSessionId || sessionId,
+      isDemo: true,
+    };
   }
 
   // Cryptographic signature verification for real Razorpay orders
@@ -116,7 +121,7 @@ export async function verifyAndUnlockPayment({
   }
 
   // Unlock session in database & memory
-  await unlockSession(sessionId);
+  const { unlockedSessionId } = await unlockSession(sessionId);
 
   // Update payment record in database if DB is online
   const now = new Date();
@@ -136,7 +141,8 @@ export async function verifyAndUnlockPayment({
 
   return {
     success: true,
-    sessionId,
+    sessionId: unlockedSessionId || sessionId,
+    unlockedSessionId: unlockedSessionId || sessionId,
   };
 }
 

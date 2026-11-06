@@ -421,7 +421,12 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
         });
 
         if (verifyRes.ok) {
-          const freshRes = await fetch(`/api/session/${currentSession.id}`);
+          const verifyData = await verifyRes.json();
+          const targetId = verifyData.unlockedSessionId || currentSession.id;
+          if (targetId !== currentSession.id) {
+            window.history.replaceState(null, "", `/result/${targetId}`);
+          }
+          const freshRes = await fetch(`/api/session/${targetId}`);
           const freshData = await freshRes.json();
           setCurrentSession(freshData);
           if (soundEnabled) playCelebrationChime();
@@ -466,7 +471,12 @@ export function ResultClientView({ session: initialSession }: ResultClientViewPr
           });
 
           if (verifyRes.ok) {
-            const freshRes = await fetch(`/api/session/${currentSession.id}`);
+            const verifyData = await verifyRes.json();
+            const targetId = verifyData.unlockedSessionId || currentSession.id;
+            if (targetId !== currentSession.id) {
+              window.history.replaceState(null, "", `/result/${targetId}`);
+            }
+            const freshRes = await fetch(`/api/session/${targetId}`);
             const freshData = await freshRes.json();
             setCurrentSession(freshData);
             if (soundEnabled) playCelebrationChime();
