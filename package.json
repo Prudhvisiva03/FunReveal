@@ -35,7 +35,7 @@
     "crypto-js": "^4.2.0",
     "lucide-react": "^1.69.0",
     "nanoid": "^6.0.2",
-    "next": "15.3.3",
+    "next": "^15.5.29",
     "next-auth": "^5.0.0-beta.28",
     "prisma": "6.4.0",
     "razorpay": "^2.9.8",
