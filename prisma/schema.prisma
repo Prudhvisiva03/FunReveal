@@ -1,0 +1,128 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ToolType {
+  LOVE_CALCULATOR
+  FRIENDSHIP_CALCULATOR
+  FUTURE_PARTNER
+  MARRIAGE_COMPATIBILITY
+  LUCKY_NUMBER
+  BEST_FRIEND_TEST
+  PERSONALITY_TEST
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum SessionStatus {
+  PENDING_PAYMENT
+  PAID
+  EXPIRED
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastLoginAt  DateTime?
+  isActive     Boolean  @default(true)
+
+  @@index([email])
+}
+
+model ResultSession {
+  id              String        @id @default(cuid())
+  toolType        ToolType
+  resultHash      String        @unique
+  resultData      Json          // Encrypted/stored result - locked until paid
+  previewData     Json          // Safe preview shown before payment
+  inputHash       String        // Hash of normalized inputs (no PII)
+  status          SessionStatus @default(PENDING_PAYMENT)
+  algorithmVersion String       @default("v1")
+  createdAt       DateTime      @default(now())
+  expiresAt       DateTime
+  paidAt          DateTime?
+  
+  payments        Payment[]
+  
+  @@index([resultHash])
+  @@index([inputHash])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  resultSessionId  String
+  razorpayOrderId  String        @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+  amount           Int           // in paise (500 = ₹5)
+  currency         String        @default("INR")
+  status           PaymentStatus @default(PENDING)
+  createdAt        DateTime      @default(now())
+  verifiedAt       DateTime?
+  failureReason    String?
+  
+  resultSession    ResultSession @relation(fields: [resultSessionId], references: [id])
+  webhookEvents    WebhookEvent[]
+  
+  @@index([razorpayOrderId])
+  @@index([razorpayPaymentId])
+  @@index([resultSessionId])
+  @@index([status])
+}
+
+model WebhookEvent {
+  id              String   @id @default(cuid())
+  razorpayEventId String   @unique  // For idempotency
+  eventType       String
+  paymentId       String?
+  rawPayload      Json
+  processed       Boolean  @default(false)
+  processedAt     DateTime?
+  createdAt       DateTime @default(now())
+  error           String?
+  
+  payment         Payment? @relation(fields: [paymentId], references: [id])
+  
+  @@index([razorpayEventId])
+  @@index([processed])
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+  
+  @@index([key])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
